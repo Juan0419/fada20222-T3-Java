@@ -63,8 +63,12 @@ public class ArbolRojinegro {
         throw new OperationNotSupportedException();
     }
 
-    public void rotacionDerecha(int x) throws  Exception {
-        throw new OperationNotSupportedException();
+    public void rotacionDerecha(int nodeRotate) throws  OperationNotSupportedException {
+        ArbolRojinegro nodefound = this.search(nodeRotate);
+        ArbolRojinegro x = nodefound.izq;
+        nodefound.izq = x.der;
+        x.der = nodefound;
+
     }
 
     /*
