@@ -7,6 +7,12 @@ import javax.naming.OperationNotSupportedException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/*
+    Integrantes del Equipo:
+    Dahian Alexandra Sanchez (1968236)
+    Juan Steban Veloza (1968025)
+ */
+
 public class ArbolRojinegro {
     @Getter
     @Setter
@@ -48,11 +54,19 @@ public class ArbolRojinegro {
     }
 
     public int maximo() throws Exception {
-        throw new OperationNotSupportedException();
+        if (this.getDer() != null) {
+            return  this.getDer().maximo();
+        } else {
+            return this.valor;
+        }
     }
 
     public int minimo() throws Exception {
-        throw new OperationNotSupportedException();
+        if (this.getIzq() != null){
+          return this.getIzq().minimo();
+        } else {
+            return this.valor;
+        }
     }
 
     public ArbolRojinegro search(int x) throws Exception {
