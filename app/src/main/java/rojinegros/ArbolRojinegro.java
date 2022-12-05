@@ -69,19 +69,38 @@ public class ArbolRojinegro {
         }
     }
 
-    public ArbolRojinegro search(int x) throws Exception {
-        throw new OperationNotSupportedException();
+    public ArbolRojinegro search(int valueSearch) throws Exception {
+        if(this.valor == valueSearch){
+            return this;
+        } else {
+            if (valueSearch >= this.valor) {
+                if (this.getDer() != null) {
+                    return this.getDer().search(valueSearch);
+                } else {
+                    return null;
+                }
+            } else {
+                if(this. getIzq() != null) {
+                    return this.getIzq().search(valueSearch);
+                } else {
+                    return null;
+                }
+            }
+        }
     }
 
-    public void rotacionIzquierda(int x) throws Exception {
-        throw new OperationNotSupportedException();
+    public void rotacionIzquierda(int nodeRotate) throws Exception {
+        ArbolRojinegro node = this.search(nodeRotate);
+        ArbolRojinegro x = node.der;
+        node.der = x.izq;
+        x.izq = node;
     }
 
-    public void rotacionDerecha(int nodeRotate) throws  OperationNotSupportedException {
-        ArbolRojinegro nodefound = this.search(nodeRotate);
-        ArbolRojinegro x = nodefound.izq;
-        nodefound.izq = x.der;
-        x.der = nodefound;
+    public void rotacionDerecha(int nodeRotate) throws  Exception {
+        ArbolRojinegro node = this.search(nodeRotate);
+        ArbolRojinegro x = node.izq;
+        node.izq = x.der;
+        x.der = node;
 
     }
 
