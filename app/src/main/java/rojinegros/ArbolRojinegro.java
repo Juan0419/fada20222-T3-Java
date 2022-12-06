@@ -30,6 +30,14 @@ public class ArbolRojinegro {
     @Setter
     private boolean black; //Si es negro True, en otro caso rojo
 
+    @Getter
+    @Setter
+    private ArbolRojinegro root; //Nodo sin padre
+
+    @Getter
+    @Setter
+    private ArbolRojinegro father; //Nodo padre
+
     public ArbolRojinegro(ArbolRojinegro izq,
                           ArbolRojinegro der,
                           int valor,
@@ -80,7 +88,7 @@ public class ArbolRojinegro {
                     return null;
                 }
             } else {
-                if(this. getIzq() != null) {
+                if(this.getIzq() != null) {
                     return this.getIzq().search(valueSearch);
                 } else {
                     return null;
@@ -89,19 +97,63 @@ public class ArbolRojinegro {
         }
     }
 
+    public void replaceRoot() {
+        if (this.root != null) {
+            this.setDer(this.root.getDer());
+            this.setIzq(this.root.getIzq());
+            this.setFather(this.root.getFather());
+            this.setBlack(this.root.isBlack());
+            this.setValor(this.root.getValor()); //Hace el cambio de raiz en caso que al momento de insertar se encuentre un numero para que sea raiz
+        }
+    }
+
+    public void replace (ArbolRojinegro dad, ArbolRojinegro antChildren, ArbolRojinegro actChildren) throws OperationNotSupportedException {
+        if (dad == null) {
+            root = actChildren;
+        } else  if (dad.der == antChildren) {
+            dad.der = actChildren;
+        } else if (dad.izq == antChildren) {
+            dad.izq = actChildren;
+        } else {
+            throw new OperationNotSupportedException();
+        }
+
+        if (actChildren != null) {
+            actChildren.setFather(father);
+        }
+    }
+
     public void rotacionIzquierda(int nodeRotate) throws Exception {
-        ArbolRojinegro node = this.search(nodeRotate);
-        ArbolRojinegro x = node.der;
-        node.der = x.izq;
-        x.izq = node;
+        ArbolRojinegro node = this.search(nodeRotate); //Node
+        ArbolRojinegro rightChildren = node.getDer(); //Hijo derecho
+        ArbolRojinegro father = node.getFather(); //Padre
+
+        node.der = rightChildren.izq;
+        if (rightChildren.izq != null) {
+            rightChildren.izq.setFather(node);
+        }
+
+        rightChildren.izq = node;
+        node.setFather(rightChildren);
+
+        replace(father, node, rightChildren);
+        replaceRoot();
     }
 
     public void rotacionDerecha(int nodeRotate) throws  Exception {
-        ArbolRojinegro node = this.search(nodeRotate);
-        ArbolRojinegro x = node.izq;
-        node.izq = x.der;
-        x.der = node;
+        ArbolRojinegro node = this.search(nodeRotate); //Nodo
+        ArbolRojinegro father = node.getFather(); //Padre
+        ArbolRojinegro leftChildren = node.getIzq(); //Hijo derecho
 
+        node.izq = leftChildren.der;
+        if (leftChildren.der != null) {
+            leftChildren.der.setFather(node);
+        }
+        leftChildren.setDer(node);
+        node.setFather(leftChildren);
+
+        replace(father, node, leftChildren);
+        replaceRoot();
     }
 
     /*
