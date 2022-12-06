@@ -57,8 +57,103 @@ public class ArbolRojinegro {
      * Metodos a implementar
      */
 
+    public void organize (ArbolRojinegro node) throws Exception {
+        ArbolRojinegro padre = node.getFather();
+
+        // 1 Caso: La raiz
+        if (padre == null) {
+            // Raiz siempre negra
+            node.black = true;
+            return;
+        }
+        if (padre.isBlack()) {
+            return;
+        }
+
+        // Padre rojo
+        ArbolRojinegro abuelo = padre.getFather();
+        ArbolRojinegro Hpadre = getHerPadre(padre);
+
+        // Caso 3: Si el hermano del padre es rojo, hay que cambiar el color del padre, abuelo y hermano del padre
+        if (Hpadre != null && !Hpadre.isBlack()) {
+            padre.setBlack(true);
+            abuelo.setBlack(false);
+            Hpadre.setBlack(true);
+
+            organize(abuelo);
+        }
+
+        // Si el padre es el hijo izquierdo del abuelo
+        else if (padre == abuelo.getIzq()) {
+
+            if (node == padre.getDer()) {
+                rotacionIzquierda(padre.getValor());
+                padre = node;
+        }
+
+        rotacionDerecha(abuelo.getValor());
+
+        padre.setBlack(true);
+        abuelo.setBlack(false);
+    }
+
+    // Si el padre es hijo derecho del abuelo
+        else {
+        // Caso 4,2: El tio es negro y el nodo es "hijo interno" derecho->izquierdo del
+        // abuelo
+        if (node == padre.getIzq()) {
+            rotacionDerecha(padre.getValor());
+
+            padre = node;
+        }
+
+        rotacionIzquierda(abuelo.getValor());
+
+        padre.setBlack(true);
+        abuelo.setBlack(false);
+        }
+    }
+
+    private ArbolRojinegro getHerPadre(ArbolRojinegro nodefather) throws Exception { // Hace referencia al hermano del papa
+        ArbolRojinegro abuelo = nodefather.getFather();
+        if (abuelo.getIzq() == nodefather) {
+            return abuelo.getDer();
+        } else if (abuelo.getDer() == nodefather) {
+            return abuelo.getIzq();
+        } else {
+            throw new Exception("Padre sin padre");
+        }
+    }
+
     public void insertar(int x) throws Exception {
-        throw new OperationNotSupportedException();
+        ArbolRojinegro node = root;
+        ArbolRojinegro father = null;
+
+        while (node != null) {
+            father = node;
+            if (x < node.getValor()) {
+                node = node.getIzq();
+            } else if (x > node.getValor()) {
+                node = node.getDer();
+            } else {
+                throw new Exception("Valor " + x + "Repetido...");
+            }
+        }
+
+        ArbolRojinegro newNode = new ArbolRojinegro();
+        newNode.setValor(x);
+        newNode.setBlack(false);
+        if (father == null) {
+            root = newNode;
+        } else if (x < father.getValor()) {
+            father.setIzq(newNode);
+        } else {
+            father.setDer(newNode);
+        }
+        newNode.setFather(father);
+
+        organize(newNode);
+        replaceRoot();
     }
 
     public int maximo() throws Exception {
@@ -123,10 +218,11 @@ public class ArbolRojinegro {
         }
     }
 
-    public void rotacionIzquierda(int nodeRotate) throws Exception {
-        ArbolRojinegro node = this.search(nodeRotate); //Node
-        ArbolRojinegro rightChildren = node.getDer(); //Hijo derecho
+    public void rotacionIzquierda(int x) throws Exception {
+        ArbolRojinegro node = search(x); //Node
         ArbolRojinegro father = node.getFather(); //Padre
+        ArbolRojinegro rightChildren = node.getDer(); //Hijo derecho
+
 
         node.der = rightChildren.izq;
         if (rightChildren.izq != null) {
@@ -140,8 +236,8 @@ public class ArbolRojinegro {
         replaceRoot();
     }
 
-    public void rotacionDerecha(int nodeRotate) throws  Exception {
-        ArbolRojinegro node = this.search(nodeRotate); //Nodo
+    public void rotacionDerecha(int x) throws  Exception {
+        ArbolRojinegro node = this.search(x); //Nodo
         ArbolRojinegro father = node.getFather(); //Padre
         ArbolRojinegro leftChildren = node.getIzq(); //Hijo derecho
 
