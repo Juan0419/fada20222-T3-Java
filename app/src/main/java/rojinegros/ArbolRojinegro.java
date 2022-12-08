@@ -9,10 +9,8 @@ import java.util.Queue;
 
 /*
     Integrantes del Equipo:
-    Juan Steban Veloza (1968025)
     Dahian Alexandra Sanchez (1968236)
-    Isabella Marin
-    Eduardo Paez
+    Juan Steban Veloza (1968025)
  */
 
 public class ArbolRojinegro {
@@ -127,7 +125,7 @@ public class ArbolRojinegro {
             this.setFather(this.root.getFather());
         }
     }
-    //METEODO INSERTAR NO FUNCIONAL DEL TODO NO PASA PRUEBA
+
     public void insertar(int x) throws Exception {
         if (this.root == null) {
             this.valor = x;
@@ -159,7 +157,7 @@ public class ArbolRojinegro {
     }
 
 
-    // PASAN PRUEBAS COMPLETAMENTE
+
     public int maximo() throws Exception {
         if (this.getDer() != null) {
             return this.getDer().maximo();
@@ -168,7 +166,6 @@ public class ArbolRojinegro {
         }
     }
 
-    // PASAN PRUEBAS COMPLETAMENTE
     public int minimo() throws Exception {
         if (this.getIzq() != null) {
             return this.getIzq().minimo();
@@ -177,7 +174,6 @@ public class ArbolRojinegro {
         }
     }
 
-    // PASAN PRUEBAS COMPLETAMENTE
     public ArbolRojinegro search(int valueSearch) throws Exception {
         if (this.valor == valueSearch) {
             return this;
@@ -247,7 +243,6 @@ public class ArbolRojinegro {
         raiz.setValor(valueD);
     }
 
-    // PASAN PRUEBAS COMPLETAMENTE
     public void rotacionIzquierda(int nodeRotate) throws Exception {
         if (this.valor == nodeRotate) {
             ArbolRojinegro nodDer = this.der;
@@ -274,7 +269,6 @@ public class ArbolRojinegro {
         }
     }
 
-    // PASAN PRUEBAS COMPLETAMENTE
     public void rotacionDerecha(int nodeRotate) throws Exception {
         if (this.valor == nodeRotate) {
             ArbolRojinegro nodIzq = this.izq;
