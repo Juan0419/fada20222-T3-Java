@@ -9,8 +9,10 @@ import java.util.Queue;
 
 /*
     Integrantes del Equipo:
-    Dahian Alexandra Sanchez (1968236)
     Juan Steban Veloza (1968025)
+    Dahian Alexandra Sanchez (1968236)
+    Isabella Marin
+    Eduardo Paez
  */
 
 public class ArbolRojinegro {
@@ -126,6 +128,7 @@ public class ArbolRojinegro {
         }
     }
 
+    //METODO NO FUNCIONAL DEL TODO NO PASA PRUEBAS
     public void insertar(int x) throws Exception {
         if (this.root == null) {
             this.valor = x;
@@ -157,7 +160,7 @@ public class ArbolRojinegro {
     }
 
 
-
+    //METODO FUNCIONAL
     public int maximo() throws Exception {
         if (this.getDer() != null) {
             return this.getDer().maximo();
@@ -166,6 +169,7 @@ public class ArbolRojinegro {
         }
     }
 
+    //METODO FUNCIONAL
     public int minimo() throws Exception {
         if (this.getIzq() != null) {
             return this.getIzq().minimo();
@@ -174,6 +178,7 @@ public class ArbolRojinegro {
         }
     }
 
+    //METODO FUNCIONAL
     public ArbolRojinegro search(int valueSearch) throws Exception {
         if (this.valor == valueSearch) {
             return this;
@@ -243,6 +248,7 @@ public class ArbolRojinegro {
         raiz.setValor(valueD);
     }
 
+    //METODO FUNCIONAL
     public void rotacionIzquierda(int nodeRotate) throws Exception {
         if (this.valor == nodeRotate) {
             ArbolRojinegro nodDer = this.der;
@@ -269,6 +275,7 @@ public class ArbolRojinegro {
         }
     }
 
+    //METODO FUNCIONAL
     public void rotacionDerecha(int nodeRotate) throws Exception {
         if (this.valor == nodeRotate) {
             ArbolRojinegro nodIzq = this.izq;
